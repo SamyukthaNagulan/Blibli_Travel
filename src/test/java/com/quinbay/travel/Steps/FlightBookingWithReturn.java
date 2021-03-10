@@ -12,7 +12,7 @@ import java.util.LinkedHashMap;
 public class FlightBookingWithReturn {
     static WebDriver driver;
     JavascriptExecutor js;
-    LinkedHashMap map=new LinkedHashMap();
+    LinkedHashMap<String, String> map= new LinkedHashMap<>();
 
 
     @Given("The user should go to the home page of the travel website")
@@ -72,6 +72,7 @@ public class FlightBookingWithReturn {
         map.put("Airline-code1",driver.findElement(By.xpath("//div[@class=\"route__departure-airline-code\"]")).getText());
         map.put("start-time1",driver.findElement(By.xpath("//div[@class=\"route__departure-time\"]")).getText());
         map.put("end-time1",driver.findElement(By.xpath("//div[@class=\"route__arrival-time\"]")).getText());
+        System.out.println("Map"+map);
         System.out.println("The details are stored in a map");
     }
 
@@ -85,6 +86,7 @@ public class FlightBookingWithReturn {
     public void clickOnTheDetailSectionForReturnAndVerifyTheValues() throws InterruptedException {
         System.out.println("Click on details section for return and verify the details");
         Thread.sleep(3000);
+        Thread.sleep(3000);
         driver.findElement(By.xpath("//*[@id=\"travel-blibli-app\"]/div/main/div[1]/section/div/div[3]/div[2]/div[2]/div[3]/div[4]/div[1]/div/div/div[1]/div[2]/div/ul/li[1]/a")).click();
         map.put("source2",driver.findElement(By.xpath("//div[@class=\"hub__flight-detail-right__departure\"]/div[contains(text(),'Surabaya (SUB)')]")).getText());
         map.put("destination2",driver.findElement(By.xpath("//div[@class=\"route__arrival-city padding-top-10\"][contains(text(),'Jakarta (CGK)')]")).getText());
@@ -95,10 +97,12 @@ public class FlightBookingWithReturn {
     }
 
     @Then("Click on the select go button for return")
-    public void click_on_the_select_go_button_for_return() {
+    public void click_on_the_select_go_button_for_return() throws InterruptedException {
         System.out.println("Click on select go button");
         driver.findElement(By.xpath("//*[@id=\"travel-blibli-app\"]/div/main/div[1]/section/div/div[3]/div[2]/div[2]/div[3]/div[4]/div[1]/div/div/div[2]/button")).click();
         driver.findElement(By.xpath("//button[contains(text(),'Pesan Tiket')]")).click();
+        Thread.sleep(5000);
+
     }
 
     @And("Enter the details to book a plane")
@@ -165,7 +169,7 @@ public class FlightBookingWithReturn {
     @And("Click on the details section and verify the values")
     public void clickOnTheDetailSectionAndVerifyTheValues() throws InterruptedException {
         System.out.println("Click on details section and verify the details");
-        Thread.sleep(5000);
+        Thread.sleep(3000);
         driver.findElement(By.xpath("//*[@id=\"travel-blibli-app\"]/div/main/div[1]/section/div/div[1]/div[2]/div[2]/div[4]/div/div[1]/div[1]/div[2]/a")).click();
         Thread.sleep(3000);
         assertEquals(map.get("source1"),driver.findElement(By.xpath("//div[@class=\"route__departure-city\"]")).getText());

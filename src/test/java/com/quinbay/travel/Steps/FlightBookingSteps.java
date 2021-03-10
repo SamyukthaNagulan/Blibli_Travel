@@ -61,8 +61,9 @@ public class FlightBookingSteps {
     @And("Scroll the page until the flights are visible")
     public void scrollThePageUntilTheFlightsAreVisible() throws InterruptedException {
         js = (JavascriptExecutor) driver;
+        Thread.sleep(5000);
+
         js.executeScript("window.scrollBy(0,1500)");
-        Thread.sleep(3000);
     }
 
     @And("click on the detail link and store details in map")
@@ -124,14 +125,14 @@ public class FlightBookingSteps {
         driver.findElement(By.xpath("//button[contains(text(),'Lanjutkan pemesanan')]")).click();
         Thread.sleep(5000);
         driver.findElement(By.xpath("//button[contains(text(),'Yakin, lanjutkan')]")).click();
-        Thread.sleep(5000);
+        Thread.sleep(10000);
         js.executeScript("window.scrollBy(0,600)");
     }
 
     @And("Click on the detail section and verify the values")
     public void clickOnTheDetailSectionAndVerifyTheValues() throws InterruptedException {
         System.out.println("Assert the details in the payment page");
-        driver.findElement(By.xpath("//*[@id=\"travel-blibli-app\"]/div/main/div[1]/section/div/div[3]/div[2]/div[2]/div[3]/div[3]/div[6]/div/div/div[1]/div[2]/div/ul/li[1]/a")).click();
+        driver.findElement(By.xpath("//a[@class=\"order-header-right-value\"]")).click();
         Thread.sleep(3000);
         assertEquals(map.get("source"), driver.findElement(By.xpath(source)).getText());
         assertEquals(map.get("destination"), driver.findElement(By.xpath(destination)).getText());
