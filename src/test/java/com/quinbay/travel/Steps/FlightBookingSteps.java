@@ -1,22 +1,25 @@
 package com.quinbay.travel.Steps;
+
+import com.quinbay.travel.pages.DetailPageXPaths;
+import com.quinbay.travel.pages.HomePageXPaths;
+import com.quinbay.travel.pages.PaymentPageXPaths;
 import io.cucumber.java.en.And;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
+import io.cucumber.java.hu.De;
 import org.openqa.selenium.*;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
+
 import static org.junit.Assert.*;
+
 import org.openqa.selenium.support.ui.Select;
+
 import java.util.LinkedHashMap;
 
 public class FlightBookingSteps {
     static WebDriver driver;
     JavascriptExecutor js;
-    String source = "//div[contains(text(),'Jakarta (CGK)')]";
-    String destination = "//div[@class=\"hub__flight-detail-right__arrival\"]/div[contains(text(),'Surabaya (SUB)')]";
-    String airlineCode = "//div[@class=\"route__departure-airline-code\"]";
-    String startTime = "//div[@class=\"route__departure-time\"]";
-    String endTime = "//div[@class=\"route__arrival-time\"]";
 
     LinkedHashMap map = new LinkedHashMap();
 
@@ -39,13 +42,13 @@ public class FlightBookingSteps {
     public void enterTheDetailsToBookAFlight() throws InterruptedException {
         System.out.println("Enter the details to book");
         Thread.sleep(2000);
-        WebElement place = driver.findElement(By.xpath("//input[@placeholder='Pilih kota tujuan']"));
+        WebElement place = driver.findElement(By.xpath(HomePageXPaths.place));
         place.sendKeys("Surabaya");
         place.sendKeys(Keys.ENTER);
-        driver.findElement(By.xpath("//button[@class=\"date__text--btn\"]")).click();
+        driver.findElement(By.xpath(HomePageXPaths.dateBtn)).click();
         Thread.sleep(2000);
 
-        driver.findElement(By.xpath("//button[@data-pika-month='3'][@data-pika-day='30']")).click();
+        driver.findElement(By.xpath(HomePageXPaths.selectDate)).click();
         Thread.sleep(3000);
         System.out.println("The details are entered");
 
@@ -54,7 +57,7 @@ public class FlightBookingSteps {
     @And("Click book a flight")
     public void clickBookAFlight() throws InterruptedException {
         System.out.println("Click on book button");
-        driver.findElement(By.xpath("//button[@class=\"button button--orange button--big button--full form__button\"]")).click();
+        driver.findElement(By.xpath(HomePageXPaths.book)).click();
         Thread.sleep(3000);
     }
 
@@ -69,12 +72,12 @@ public class FlightBookingSteps {
     @And("click on the detail link and store details in map")
     public void clickOnTheDetailLink() {
         System.out.println("Store the details in a map");
-        driver.findElement(By.xpath("//*[@id=\"travel-blibli-app\"]/div/main/div[1]/section/div/div[3]/div[2]/div[2]/div[3]/div[3]/div[6]/div/div/div[1]/div[2]/div/ul/li[1]/a")).click();
-        map.put("source", driver.findElement(By.xpath(source)).getText());
-        map.put("destination", driver.findElement(By.xpath(destination)).getText());
-        map.put("Airline-code", driver.findElement(By.xpath(airlineCode)).getText());
-        map.put("start-time", driver.findElement(By.xpath(startTime)).getText());
-        map.put("end-time", driver.findElement(By.xpath(endTime)).getText());
+        driver.findElement(By.xpath(DetailPageXPaths.detail1)).click();
+        map.put("source", driver.findElement(By.xpath(DetailPageXPaths.source)).getText());
+        map.put("destination", driver.findElement(By.xpath(DetailPageXPaths.destination)).getText());
+        map.put("Airline-code", driver.findElement(By.xpath(DetailPageXPaths.airlineCode)).getText());
+        map.put("start-time", driver.findElement(By.xpath(DetailPageXPaths.startTime)).getText());
+        map.put("end-time", driver.findElement(By.xpath(DetailPageXPaths.endTime)).getText());
         System.out.println("The details are stored in a map");
 
     }
@@ -82,7 +85,7 @@ public class FlightBookingSteps {
 
     @And("Click on the select go button")
     public void clickOnTheSelectGoButton() {
-        driver.findElement(By.xpath("//*[@id=\"travel-blibli-app\"]/div/main/div[1]/section/div/div[3]/div[2]/div[2]/div[3]/div[3]/div[6]/div/div/div[2]/button")).click();
+        driver.findElement(By.xpath(DetailPageXPaths.selectGo1)).click();
     }
 
     @And("Enter the details to proceed")
@@ -95,7 +98,7 @@ public class FlightBookingSteps {
         driver.findElement(By.name("phoneNumber")).sendKeys("08594389534");
         driver.findElement(By.name("email")).sendKeys("samyuktha@gmail.com");
         js.executeScript("window.scrollBy(0,700)");
-        driver.findElement(By.xpath("//*[@id=\"travel-blibli-app\"]/div/main/div[1]/section/div/div[2]/div[1]/div[4]/div[1]/div[1]/div[2]/label")).click();
+        driver.findElement(By.xpath(DetailPageXPaths.check)).click();
         Thread.sleep(3000);
         System.out.println("The details are entered");
     }
@@ -103,17 +106,17 @@ public class FlightBookingSteps {
     @And("Click on the detail section and verify")
     public void clickOnTheDetailSectionAndVerify() throws InterruptedException {
         System.out.println("Assert the details in detail page");
-        Thread.sleep(5000);
-        driver.findElement(By.xpath("//a[@class=\"order-header-right-value\"]")).click();
+        Thread.sleep(10000);
+        driver.findElement(By.xpath(DetailPageXPaths.detail)).click();
         Thread.sleep(3000);
-        assertEquals(map.get("source"), driver.findElement(By.xpath(source)).getText());
-        assertEquals(map.get("destination"), driver.findElement(By.xpath(destination)).getText());
-        assertEquals(map.get("Airline-code"), driver.findElement(By.xpath(airlineCode)).getText());
-        assertEquals(map.get("start-time"), driver.findElement(By.xpath(startTime)).getText());
-        assertEquals(map.get("end-time"), driver.findElement(By.xpath(endTime)).getText());
+        assertEquals(map.get("source"), driver.findElement(By.xpath(DetailPageXPaths.source)).getText());
+        assertEquals(map.get("destination"), driver.findElement(By.xpath(DetailPageXPaths.destination)).getText());
+        assertEquals(map.get("Airline-code"), driver.findElement(By.xpath(DetailPageXPaths.airlineCode)).getText());
+        assertEquals(map.get("start-time"), driver.findElement(By.xpath(DetailPageXPaths.startTime)).getText());
+        assertEquals(map.get("end-time"), driver.findElement(By.xpath(DetailPageXPaths.endTime)).getText());
 
         Thread.sleep(3000);
-        driver.findElement(By.xpath("//b[contains(text(),'×')]")).click();
+        driver.findElement(By.xpath(DetailPageXPaths.back)).click();
         System.out.println("Asserted the details in detail page");
 
 
@@ -122,9 +125,9 @@ public class FlightBookingSteps {
     @And("Click on continue ordering")
     public void clickOnContinueOrdering() throws InterruptedException {
         System.out.println("Confirm booking");
-        driver.findElement(By.xpath("//button[contains(text(),'Lanjutkan pemesanan')]")).click();
+        driver.findElement(By.xpath(PaymentPageXPaths.confirm)).click();
         Thread.sleep(5000);
-        driver.findElement(By.xpath("//button[contains(text(),'Yakin, lanjutkan')]")).click();
+        driver.findElement(By.xpath(PaymentPageXPaths.proceed)).click();
         Thread.sleep(10000);
         js.executeScript("window.scrollBy(0,600)");
     }
@@ -132,14 +135,14 @@ public class FlightBookingSteps {
     @And("Click on the detail section and verify the values")
     public void clickOnTheDetailSectionAndVerifyTheValues() throws InterruptedException {
         System.out.println("Assert the details in the payment page");
-        driver.findElement(By.xpath("//a[@class=\"order-header-right-value\"]")).click();
+        driver.findElement(By.xpath(PaymentPageXPaths.details)).click();
         Thread.sleep(3000);
-        assertEquals(map.get("source"), driver.findElement(By.xpath(source)).getText());
-        assertEquals(map.get("destination"), driver.findElement(By.xpath(destination)).getText());
-        assertEquals(map.get("Airline-code"), driver.findElement(By.xpath(airlineCode)).getText());
-        assertEquals(map.get("start-time"), driver.findElement(By.xpath(startTime)).getText());
-        assertEquals(map.get("end-time"), driver.findElement(By.xpath(endTime)).getText());
-        driver.findElement(By.xpath("//b[contains(text(),'×')]")).click();
+        assertEquals(map.get("source"), driver.findElement(By.xpath(PaymentPageXPaths.source)).getText());
+        assertEquals(map.get("destination"), driver.findElement(By.xpath(PaymentPageXPaths.destination)).getText());
+        assertEquals(map.get("Airline-code"), driver.findElement(By.xpath(PaymentPageXPaths.airlineCode)).getText());
+        assertEquals(map.get("start-time"), driver.findElement(By.xpath(PaymentPageXPaths.startTime)).getText());
+        assertEquals(map.get("end-time"), driver.findElement(By.xpath(PaymentPageXPaths.endTime)).getText());
+        driver.findElement(By.xpath(PaymentPageXPaths.cancel)).click();
         System.out.println("Assert the details in the payment page");
     }
 }

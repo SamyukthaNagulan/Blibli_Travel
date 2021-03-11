@@ -1,7 +1,7 @@
 @Blibli_Travel
 Feature: FLight Ticket Booking
 
-@Test1
+  @Test1
   Scenario: User books the flight ticket
     Given The user should go to the home page of the blibli travel website
     Then Enter the details to book a flight
